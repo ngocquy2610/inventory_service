@@ -1,0 +1,25 @@
+# PostgreSQL. Versions 9.5 and up are supported.
+#
+# Sames database as the monolith (Restaurant_Management).
+# Monolith is the only owner of db/migrate and db/schema.rb.
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  # Same host/name/credentials as the monolith
+  host: <%= ENV.fetch("DB_HOST", "localhost") %>
+  port: <%= ENV.fetch("DB_PORT", 5432) %>
+
+development:
+  <<: *default
+  # DATABASE_URL sẽ ghi đè/overwrite các giá trị trên khi có
+  url: <%= ENV["DATABASE_URL"] %>
+
+test:
+  <<: *default
+  url: <%= ENV["DATABASE_URL"] %>
+
+# Production (Kamal): chỉ dùng url từ environment
+production:
+  url: <%= ENV["DATABASE_URL"] %>
